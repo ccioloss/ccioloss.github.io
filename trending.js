@@ -1,36 +1,33 @@
-// api key for The Movie Database API
-const api_key = "8ad8864e6b28addab28a4b59df5c9676";
-
 const moviesBtn = document.getElementById("trending-movies");
 const tvseriesBtn = document.getElementById("trending-tvseries");
 const actorsBtn = document.getElementById("trending-actors");
 const cardList = document.querySelector(".card-list");
 
-const makeMultiRequest = async (movieData) => {
-  const response = await fetch(
-    `https://api.themoviedb.org/3/search/multi?api_key=${api_key}&query=${movieData}`
-  );
-  const jsonResponse = await response.json();
-  return jsonResponse;
-};
+// const makeMultiRequest = async (movieData) => {
+//   const response = await fetch(
+//     `https://api.themoviedb.org/3/search/multi?api_key=${api_key}&query=${movieData}`
+//   );
+//   const jsonResponse = await response.json();
+//   return jsonResponse;
+// };
 
-const makeRequest = async (mediaType) => {
-  const response = await fetch(
-    `https://api.themoviedb.org/3/trending/${mediaType}/week?api_key=${api_key}`
-  );
-  const jsonResponse = await response.json();
-  return jsonResponse;
-};
+// const makeRequest = async (mediaType) => {
+//   const response = await fetch(
+//     `https://api.themoviedb.org/3/trending/${mediaType}/week?api_key=${api_key}`
+//   );
+//   const jsonResponse = await response.json();
+//   return jsonResponse;
+// };
 
-const getFullImagePath = (imagePath) => {
-  return `https://image.tmdb.org/t/p/w500${imagePath}`;
-};
+// const getFullImagePath = (imagePath) => {
+//   return `https://image.tmdb.org/t/p/w500${imagePath}`;
+// };
 
-const movieTypeByScore = (score) => {
-  if (score >= 8.0) return `film-score-best`;
-  if (score >= 5.5) return `film-score-good`;
-  return `film-score-bad`;
-};
+// const movieTypeByScore = (score) => {
+//   if (score >= 8.0) return `film-score-best`;
+//   if (score >= 5.5) return `film-score-good`;
+//   return `film-score-bad`;
+// };
 
 const processMovies = (objects) => {
   let movies = [];
@@ -41,6 +38,7 @@ const processMovies = (objects) => {
       description: obj.overview,
       release_date: obj.release_date,
       imagePath: obj.backdrop_path,
+      genre_ids: obj.genre_ids,
     };
     movies.push(movie);
   });
@@ -57,6 +55,7 @@ const processTVSeries = (objects) => {
       description: obj.overview,
       firstAirDate: obj.first_air_date,
       imagePath: obj.backdrop_path,
+      genre_ids: obj.genre_ids,
     };
     tvseriesCollection.push(tvseries);
   });
@@ -87,9 +86,16 @@ moviesBtn.addEventListener("click", () => {
     const processedMovies = processMovies(movies);
     cardList.innerHTML = "";
     processedMovies.forEach((movie) => {
+      let genreNames = [];
+      movie.genre_ids.forEach((m) => {
+        if (genreIdsAndNames[m] !== undefined) {
+          genreNames.push(genreIdsAndNames[m].name);
+        }
+      });
       cardList.innerHTML += `<div class="card">
         <img src=${getFullImagePath(movie.imagePath)}>
         <h4>${movie.title}</h4>
+        <p id="genre-id">${getListOfGenres(genreNames)}</p>
         <p id=${movieTypeByScore(movie.score)}>${movie.score}</p>
         <p id="movie-description">${movie.description}</p>
         <p id="release-year">${movie.release_date}</p>
@@ -103,9 +109,16 @@ tvseriesBtn.addEventListener("click", () => {
     const processedTVSeries = processTVSeries(tvseries);
     cardList.innerHTML = "";
     processedTVSeries.forEach((tvseries) => {
+      let genreNames = [];
+      tvseries.genre_ids.forEach((m) => {
+        if (genreIdsAndNames[m] !== undefined) {
+          genreNames.push(genreIdsAndNames[m].name);
+        }
+      });
       cardList.innerHTML += `<div class="card">
         <img src=${getFullImagePath(tvseries.imagePath)}>
         <h4>${tvseries.title}</h4>
+        <p id="genre-id">${getListOfGenres(genreNames)}</p>
         <p id=${movieTypeByScore(tvseries.score)}>${tvseries.score}</p>
         <p id="movie-description">${tvseries.description}</p>
         <p id="release-year">${tvseries.firstAirDate}</p>

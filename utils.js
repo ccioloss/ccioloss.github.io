@@ -137,7 +137,7 @@ const movieTypeByScore = (score) => {
   return `film-score-bad`;
 };
 
-const processMovies = (obj) => {
+const processMovie = (obj) => {
   let movies = [];
   const movie = {
     title: obj.title,
@@ -151,7 +151,7 @@ const processMovies = (obj) => {
   return movies;
 };
 
-const processTVSeries = (obj) => {
+const processTVSerie = (obj) => {
   let tvseriesCollection = [];
   const tvseries = {
     title: obj.name,
@@ -165,7 +165,7 @@ const processTVSeries = (obj) => {
   return tvseriesCollection;
 };
 
-const processActors = (obj) => {
+const processActor = (obj) => {
   let actors = [];
   const actor = {
     name: obj.name,

@@ -13,7 +13,7 @@ searchField.addEventListener("keypress", (e) => {
     makeMultiRequest(searchValue).then((obj) => {
       const searchObj = obj.results[0];
       if (searchObj.media_type === "tv") {
-        const processedTVSeries = processTVSeries(searchObj);
+        const processedTVSeries = processTVSerie(searchObj);
         searchList.innerHTML = "";
         let genreNames = [];
         searchObj.genre_ids.forEach((obj) => {
@@ -25,14 +25,14 @@ searchField.addEventListener("keypress", (e) => {
           searchList.innerHTML += `<div class="card">
             <img src=${getFullImagePath(tvseries.imagePath)}>
             <h4>${tvseries.title}</h4>
-            <p>${getListOfGenres(genreNames)}</p>
+            <p id="genre-id">${getListOfGenres(genreNames)}</p>
             <p id=${movieTypeByScore(tvseries.score)}>${tvseries.score}</p>
             <p id="movie-description">${tvseries.description}</p>
             <p id="release-year">${tvseries.firstAirDate}</p>
           </div>`;
         });
       } else if (searchObj.media_type === "movie") {
-        const processedMovies = processMovies(searchObj);
+        const processedMovies = processMovie(searchObj);
         let genreNames = [];
         searchObj.genre_ids.forEach((obj) => {
           if (genreIdsAndNames[obj] !== undefined) {
@@ -45,14 +45,14 @@ searchField.addEventListener("keypress", (e) => {
           searchList.innerHTML += `<div class="card">
             <img src=${getFullImagePath(movie.imagePath)}>
             <h4>${movie.title}</h4>
-            <p>${getListOfGenres(genreNames)}</p>
+            <p id="genre-id">${getListOfGenres(genreNames)}</p>
             <p id=${movieTypeByScore(movie.score)}>${movie.score}</p>
             <p id="movie-description">${movie.description}</p>
             <p id="release-year">${movie.release_date}</p>
           </div>`;
         });
       } else {
-        const processedActors = processActors(searchObj);
+        const processedActors = processActor(searchObj);
         searchList.innerHTML = "";
         processedActors.forEach((actor) => {
           searchList.innerHTML += `<div class="card">

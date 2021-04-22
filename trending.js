@@ -3,32 +3,6 @@ const tvseriesBtn = document.getElementById("trending-tvseries");
 const actorsBtn = document.getElementById("trending-actors");
 const cardList = document.querySelector(".card-list");
 
-// const makeMultiRequest = async (movieData) => {
-//   const response = await fetch(
-//     `https://api.themoviedb.org/3/search/multi?api_key=${api_key}&query=${movieData}`
-//   );
-//   const jsonResponse = await response.json();
-//   return jsonResponse;
-// };
-
-// const makeRequest = async (mediaType) => {
-//   const response = await fetch(
-//     `https://api.themoviedb.org/3/trending/${mediaType}/week?api_key=${api_key}`
-//   );
-//   const jsonResponse = await response.json();
-//   return jsonResponse;
-// };
-
-// const getFullImagePath = (imagePath) => {
-//   return `https://image.tmdb.org/t/p/w500${imagePath}`;
-// };
-
-// const movieTypeByScore = (score) => {
-//   if (score >= 8.0) return `film-score-best`;
-//   if (score >= 5.5) return `film-score-good`;
-//   return `film-score-bad`;
-// };
-
 const processMovies = (objects) => {
   let movies = [];
   objects.results.forEach((obj) => {
